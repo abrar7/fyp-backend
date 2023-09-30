@@ -26,6 +26,9 @@ app.post("/payments/intents", async (req, res) => {
       .json({ error: "An error occurred while processing your request." });
   }
 });
+app.get("/", (req, res) => {
+  res.send("Hellow test");
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
