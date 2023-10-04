@@ -11,6 +11,13 @@ app.get("/home", (req, res) => {
   res.send("Hellow test");
 });
 
+app.get("/home/testing", (req, res) => {
+  res.send("Testing purposes only");
+});
+app.get("/home/testing/projects", (req, res) => {
+  res.send("Checking project APIS");
+});
+
 app.post("/", async (req, res) => {
   try {
     const { amount } = req.body;
