@@ -18,7 +18,7 @@ app.get("/home/testing/projects", (req, res) => {
   res.send("Checking project APIS");
 });
 
-app.post("/", async (req, res) => {
+app.post("/payments/intents", async (req, res) => {
   try {
     const { amount } = req.body;
 
