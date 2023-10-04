@@ -7,11 +7,14 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("Hellow test");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hellow test");
+// });
+// app.get("/test", (req, res) => {
+//   res.send("This is test new page");
+// });
 
-app.post("/payments/intents", async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     const { amount } = req.body;
 
@@ -34,3 +37,7 @@ app.post("/payments/intents", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+exports.module = {
+  app: app,
+};
