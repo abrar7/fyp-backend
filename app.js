@@ -7,12 +7,9 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-// app.get("/", (req, res) => {
-//   res.send("Hellow test");
-// });
-// app.get("/test", (req, res) => {
-//   res.send("This is test new page");
-// });
+app.get("/home", (req, res) => {
+  res.send("Hellow test");
+});
 
 app.post("/", async (req, res) => {
   try {
