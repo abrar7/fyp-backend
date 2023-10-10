@@ -11,21 +11,14 @@ app.get("/home", (req, res) => {
   res.send("Hellow test");
 });
 
-app.get("/home/testing", (req, res) => {
-  res.send("Testing purposes only");
-});
-app.get("/home/testing/projects", (req, res) => {
-  res.send("Checking project APIS");
-});
-
 app.post("/payments/intents", async (req, res) => {
   try {
     const { amount } = req.body;
 
-    // Creating payment intent with the provided amount
+    // payment intent created with the provided amount
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount,
-      currency: "usd",
+      amount: amount * 100,
+      currency: "PKR",
     });
 
     // Return the client secret to complete the payment on the frontend
