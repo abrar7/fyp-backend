@@ -47,6 +47,7 @@ async function insertData(data) {
 
   await purchasedItems.create({
     userUid: data?.userUid,
+    grandTotal: data?.grandTotal,
     date: data?.date,
     items: itemsData,
   });

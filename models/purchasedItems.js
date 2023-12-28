@@ -13,6 +13,7 @@ const itemSchema = new mongoose.Schema({
 
 const schema = new mongoose.Schema({
   userUid: String,
+  grandTotal: Number,
   date: String,
   items: [itemSchema],
 });
