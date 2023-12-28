@@ -33,31 +33,58 @@ app.post("/payments/intents", async (req, res) => {
   }
 });
 
-async function insertData(data) {
-  const itemsData = data?.items?.map((item) => ({
-    companyName: item?.companyName,
-    count: item?.count,
-    id: item?.id,
-    imgLink: item?.imgLink,
-    inStock: item?.inStock,
-    itemName: item?.itemName,
-    price: item?.price,
-    weight: item?.weight,
-  }));
+// async function insertData(data) {
+//   const itemsData = data?.items?.map((item) => ({
+//     companyName: item?.companyName,
+//     count: item?.count,
+//     id: item?.id,
+//     imgLink: item?.imgLink,
+//     inStock: item?.inStock,
+//     itemName: item?.itemName,
+//     price: item?.price,
+//     weight: item?.weight,
+//   }));
 
-  await purchasedItems.create({
-    userUid: data?.userUid,
-    grandTotal: data?.grandTotal,
-    date: data?.date,
-    items: itemsData,
-  });
+//   await purchasedItems.create({
+//     userUid: data?.userUid,
+//     grandTotal: data?.grandTotal,
+//     date: data?.date,
+//     items: itemsData,
+//   });
+// }
+
+async function insertData(data) {
+  try {
+    const itemsData = data?.items?.map((item) => ({
+      companyName: item?.companyName,
+      count: item?.count,
+      id: item?.id,
+      imgLink: item?.imgLink,
+      inStock: item?.inStock,
+      itemName: item?.itemName,
+      price: item?.price,
+      weight: item?.weight,
+    }));
+
+    await purchasedItems.create({
+      userUid: data?.userUid,
+      grandTotal: data?.grandTotal,
+      date: data?.date,
+      items: itemsData,
+    });
+
+    console.log("Purchase data inserted successfully");
+  } catch (error) {
+    console.error("Error inserting purchase data:", error);
+    throw error;
+  }
 }
 
 app.post("/insertPurchases", async (req, res) => {
   try {
     const { data } = req.body;
-    insertData(data);
-    res.status(200).json({ messgae: "Purchase successfull." });
+    await insertData(data);
+    res.status(200).json({ message: "Purchase successfull." });
   } catch (error) {
     console.error(error);
     res
