@@ -3,14 +3,31 @@ const stripe = require("stripe")("sk_test_i2VMzET9eV0X14HwvkBzFYdR");
 const mongoose = require("mongoose");
 const purchasedItems = require("./models/purchasedItems");
 const bodyParser = require("body-parser");
-
 const app = express();
-const port = 3000;
-
 app.use(bodyParser.json());
+const port = 3000;
+// ==============================
+
+const dbUrl =
+  "mongodb+srv://abrarmughal003:abrar12345@purchases.f4ifnu8.mongodb.net/purchases?retryWrites=true&w=majority";
+
+// ===============================
 
 app.get("/home", (req, res) => {
   res.send("Hellow test");
+});
+
+app.get("/purchaseHistory/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await purchasedItems.find({ userUid: id });
+    res.status(200).json({ data: data });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Error occurred while saving data, Try Again!" });
+  }
 });
 
 app.post("/payments/intents", async (req, res) => {
@@ -32,26 +49,6 @@ app.post("/payments/intents", async (req, res) => {
       .json({ error: "An error occurred while processing your request." });
   }
 });
-
-// async function insertData(data) {
-//   const itemsData = data?.items?.map((item) => ({
-//     companyName: item?.companyName,
-//     count: item?.count,
-//     id: item?.id,
-//     imgLink: item?.imgLink,
-//     inStock: item?.inStock,
-//     itemName: item?.itemName,
-//     price: item?.price,
-//     weight: item?.weight,
-//   }));
-
-//   await purchasedItems.create({
-//     userUid: data?.userUid,
-//     grandTotal: data?.grandTotal,
-//     date: data?.date,
-//     items: itemsData,
-//   });
-// }
 
 async function insertData(data) {
   try {
@@ -93,9 +90,14 @@ app.post("/insertPurchases", async (req, res) => {
   }
 });
 
-mongoose.connect(
-  "mongodb+srv://abrarmughal003:abrar12345@purchases.f4ifnu8.mongodb.net/?retryWrites=true&w=majority"
-);
+mongoose
+  .connect(dbUrl)
+  .then(() => {
+    console.log("MongoDb Connection successfull");
+  })
+  .catch((err) => {
+    console.error("Error occured while creating connection to mongoDB!", err);
+  });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}...`);
