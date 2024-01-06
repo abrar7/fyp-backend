@@ -66,11 +66,14 @@ async function insertData(data) {
     await purchasedItems.create({
       userUid: data?.userUid,
       grandTotal: data?.grandTotal,
+      subTotal: data?.subTotal,
+      gstAmount: data?.gstAmount,
+      reward: data?.reward,
       date: data?.date,
       items: itemsData,
     });
 
-    console.log("Purchase data inserted successfully");
+    console.log("Purchase data inserted successfully.");
   } catch (error) {
     console.error("Error inserting purchase data:", error);
     throw error;

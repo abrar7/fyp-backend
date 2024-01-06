@@ -15,6 +15,9 @@ const schema = new mongoose.Schema({
   userUid: String,
   grandTotal: Number,
   date: String,
+  subTotal: Number,
+  gstAmount: Number,
+  reward: Number,
   items: [itemSchema],
 });
 
