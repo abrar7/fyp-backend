@@ -63,7 +63,7 @@ async function insertData(data) {
       weight: item?.weight,
     }));
 
-    await purchasedItems.create({
+    const response = await purchasedItems.create({
       userUid: data?.userUid,
       grandTotal: data?.grandTotal,
       subTotal: data?.subTotal,
@@ -74,6 +74,7 @@ async function insertData(data) {
     });
 
     console.log("Purchase data inserted successfully.");
+    return response;
   } catch (error) {
     console.error("Error inserting purchase data:", error);
     throw error;
@@ -83,8 +84,10 @@ async function insertData(data) {
 app.post("/insertPurchases", async (req, res) => {
   try {
     const { data } = req.body;
-    await insertData(data);
-    res.status(200).json({ message: "Purchase successfull." });
+    const reponse = await insertData(data);
+    res
+      .status(200)
+      .json({ message: "Purchase Successfull.", reponseId: reponse?._id });
   } catch (error) {
     console.error(error);
     res
